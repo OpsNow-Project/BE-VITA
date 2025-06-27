@@ -1,0 +1,5 @@
+spring:
+  application:
+    name: vita
+prometheus:
+  base-url: ${PROMETHEUS_BASE_URL}
