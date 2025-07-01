@@ -1,5 +1,13 @@
 spring:
   application:
     name: vita
+
+loki:
+  base-url: ${LOKI_BASE_URL}
+
 prometheus:
   base-url: ${PROMETHEUS_BASE_URL}
+
+gemini:
+  endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
+  apiKey: ${GEMINI_API_KEY}
