@@ -11,3 +11,6 @@ prometheus:
 gemini:
   endpoint: https://generativelanguage.googleapis.com/v1beta/models/gemini-2.0-flash:generateContent
   apiKey: ${GEMINI_API_KEY}
+
+k8s:
+  kubeconfig: ${KUBECONFIG:${USERPROFILE}/.kube/config}
