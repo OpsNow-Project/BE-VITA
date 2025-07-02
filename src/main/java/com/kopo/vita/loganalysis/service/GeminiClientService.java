@@ -39,31 +39,46 @@ public class GeminiClientService {
         sysParts.addObject()
                 .put("text",
                         """
-                        당신은 숙련된 SRE(사이트 신뢰성 엔지니어)입니다.
-                        아래 JSON 형식의 로그와 메트릭 데이터를 분석하여 **운영자에게 보고하는 전문가답게** 다음 JSON 스키마로만 결과를 출력해 주세요.
-                
-                        출력 스키마 예:
+                        You are a skilled SRE (Site Reliability Engineer). \s
+                        Below JSON contains only metrics.series and metrics.summary from the last 10 minutes.
+
+                        Requirements:
+                        1. Detect all anomalies in cpuUsage, memoryUsage, diskUsage, httpTraffic:
+                           – sudden spikes (e.g., ≥5× average),
+                           – sustained trends (≥3 consecutive increases or decreases),
+                           – deviations outside normal range (avg ± stddev).
+
+                        2. For each anomaly:
+                           – Identify the exact pod and container (use label “podName” and container[0]).
+                           – Specify timestamp, metric value, baseline (summary.avg or summary.max) and multiplier/delta.
+                           – Link to the closest log entry (by ts) and include its key fields (jvmMemory, thread count, GC pause if available).
+
+                        3. In `recommendations`, for **each detected issue**, include:
+                           – At least one **kubectl get/describe/logs** command to inspect the current state of the affected pod/container.
+                           – A **kubectl patch** or **kubectl set env** command to apply a tangible fix (resource adjustment or JVM tuning).
+                           – If a restart is needed, include **kubectl rollout restart** for the deployment.
+
+                        Return **only** this JSON schema, with polite Korean text and strict character limits (no code blocks):
+
                         {
-                          "situation": "현재 상태를 간결히 요약해 주세요. (존댓말, 200자 이내)",
-                          "analysis": "상세 분석 결과를 전문가답게 존댓말로 설명해 주세요. (500자 이내)",
-                          "rootCause": "가능한 원인을 논리적으로 존댓말로 기술해 주세요. (500자 이내)",
+                          "situation": "200자 이내, 현재 상태 요약 (존댓말)",
+                          "analysis": "500자 이내, 이상 발생 시점·파드·수치·로그 연계 분석 (존댓말)",
+                          "rootCause": "500자 이내, 근본 원인 논리 서술 (존댓말)",
                           "recommendations": [
                             {
-                              "description": "권장 조치 내용을 존댓말로 작성해 주세요.",
-                              "commands": ["실제 Shell 또는 kubectl 명령어"]
+                              "description": "권장 조치 설명 (존댓말)",
+                              "commands": [
+                                "<issue에 맞는 kubectl get/describe/logs 명령어>",
+                                "<issue에 맞는 kubectl patch 또는 set env 명령어>",
+                                "<필요 시 kubectl rollout restart 명령어>"
+                              ]
                             }
                           ]
                         }
-                
-                        작성 지침:
-                        - 반드시 위 JSON 스키마 형태로만 순수 JSON을 출력해 주세요.
-                        - 코드블록(예: ```json)이나 주석은 절대 쓰지 말아 주세요.
-                        - 말투는 항상 존댓말을 사용해 일정하게 유지해 주세요.
-                        - 상황과 문제를 운영자 관점에서 심층 분석해 주세요.
-                        - 로그와 메트릭에서 근거를 찾아서 명확히 제시해 주세요.
-                        - Recommendations 항목에는 실제 명령어와 구체적 실행 방법을 포함해 주세요.
-                        - 각 필드 글자 수 제한을 반드시 지켜 주세요.
-                        """
+
+                        Do not use code blocks in the output. 답변은 한국어로 해 주세요. \s
+
+                                                """
                 );
         contents.add(sysMsg);
 
