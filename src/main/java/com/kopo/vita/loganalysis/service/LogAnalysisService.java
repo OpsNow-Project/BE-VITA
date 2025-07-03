@@ -44,6 +44,8 @@ public class LogAnalysisService {
     private final HttpClient httpClient = HttpClient.newHttpClient();
     private final ObjectMapper objectMapper;
 
+    private JsonNode lastAnalysis;
+
     public LogAnalysisService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
     }
@@ -246,5 +248,17 @@ public class LogAnalysisService {
                 "max", stats.getMax(),
                 "min", stats.getMin()
         );
+    }
+
+    public JsonNode getLastAnalysis() {
+        return lastAnalysis;
+    }
+
+    public void setLastAnalysis(JsonNode analysis) {
+        this.lastAnalysis = analysis;
+    }
+
+    public void clearLastAnalysis() {
+        this.lastAnalysis = null;
     }
 }

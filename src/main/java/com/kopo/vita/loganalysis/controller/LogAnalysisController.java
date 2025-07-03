@@ -15,7 +15,7 @@ public class LogAnalysisController {
     private final GeminiClientService geminiClientService;
     private final ObjectMapper objectMapper;
     private final LogAnalysisService logservice;
-    private JsonNode lastAnalysis;
+
     public LogAnalysisController(GeminiClientService gemini, ObjectMapper objectMapper, LogAnalysisService logservice) {
         this.geminiClientService = gemini;
         this.objectMapper = objectMapper;
@@ -29,7 +29,7 @@ public class LogAnalysisController {
             ObjectNode payload = logservice.buildPayloadJson();
             ObjectNode geminiRequest = geminiClientService.buildGeminiRequest(payload);
             JsonNode analysis = geminiClientService.callGeminiAndParse(geminiRequest);
-            lastAnalysis = analysis;
+            logservice.setLastAnalysis(analysis);
             return ResponseEntity.ok(analysis);
 
         } catch (Exception e) {
@@ -42,12 +42,13 @@ public class LogAnalysisController {
 
     @GetMapping("/analyze")
     public ResponseEntity<JsonNode> getLastAnalysis() {
-        if (lastAnalysis == null) {
+        JsonNode last = logservice.getLastAnalysis();
+        if (last == null) {
             ObjectNode msg = objectMapper.createObjectNode();
             msg.put("message", "아직 분석된 결과가 없습니다.");
             return ResponseEntity.status(404).body(msg);
         }
-        return ResponseEntity.ok(lastAnalysis);
+        return ResponseEntity.ok(last);
     }
 
 }
