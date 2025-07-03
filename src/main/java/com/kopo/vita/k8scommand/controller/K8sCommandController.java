@@ -11,8 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/api/cli")
-@RequiredArgsConstructor
+@RequestMapping("/cli")
 public class K8sCommandController {
 
     private final K8sCommandService k8sService;
