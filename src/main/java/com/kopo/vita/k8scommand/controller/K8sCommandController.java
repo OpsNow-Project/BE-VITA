@@ -11,11 +11,16 @@ import java.util.HashMap;
 import java.util.Map;
 
 @RestController
-@RequestMapping("/cli")
+@RequestMapping("/api/cli")
 public class K8sCommandController {
 
     private final K8sCommandService k8sService;
     private final LogAnalysisService logAnalysisService;
+
+    public K8sCommandController(K8sCommandService k8sService, LogAnalysisService logAnalysisService) {
+        this.k8sService = k8sService;
+        this.logAnalysisService = logAnalysisService;
+    }
 
     @PostMapping("/exec")
     public ResponseEntity<?> execCli(@RequestBody ExecRequest req) {
