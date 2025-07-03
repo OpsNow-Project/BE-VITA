@@ -16,17 +16,17 @@ public class PrometheusController {
 
     private final PrometheusService prometheusService;
 
-    @GetMapping("/metrics/cluster-summary")
+    @GetMapping("/api/metrics/cluster-summary")
     public Mono<ClusterMetricsDTO> getClusterSummary() {
         return prometheusService.getClusterMetrics();
     }
 
-    @GetMapping("/pod/list")
+    @GetMapping("/api/pod/list")
     public Mono<List<PodDTO>> getPodList() {
         return prometheusService.getPodList();
     }
 
-    @GetMapping("/pod/info")
+    @GetMapping("/api/pod/info")
     public Mono<PodDTO> getPodInfo(String podName, String nameSpace) {
         return prometheusService.getPodInfo(podName, nameSpace);
     }
