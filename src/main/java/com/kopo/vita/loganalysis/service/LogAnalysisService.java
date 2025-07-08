@@ -261,4 +261,5 @@ public class LogAnalysisService {
     public void clearLastAnalysis() {
         this.lastAnalysis = null;
     }
+
 }

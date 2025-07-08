@@ -4,6 +4,7 @@ import com.kopo.vita.k8scommand.dto.ExecRequest;
 import com.kopo.vita.k8scommand.service.K8sCommandService;
 import com.kopo.vita.loganalysis.service.LogAnalysisService;
 import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
@@ -12,6 +13,8 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/cli")
+@RequiredArgsConstructor
+@Slf4j
 public class K8sCommandController {
 
     private final K8sCommandService k8sService;
@@ -24,8 +27,12 @@ public class K8sCommandController {
 
     @PostMapping("/exec")
     public ResponseEntity<?> execCli(@RequestBody ExecRequest req) {
+
+        log.info("execCli : " + req.getCommand());
+
         Map<String, Object> response = new HashMap<>();
         response.put("command", req.getCommand());
+
         try {
             Object result = k8sService.execute(req.getCommand());
             response.put("result", result);
