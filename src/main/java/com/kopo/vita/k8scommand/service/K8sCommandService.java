@@ -59,6 +59,8 @@ public class K8sCommandService {
         switch (resource) {
             case "pods":
                 return client.pods().inNamespace(ns).list();
+            case "pod":
+                return client.pods().inNamespace(ns).list();
             case "deployments":
                 return client.apps().deployments().inNamespace(ns).list();
             case "services":
