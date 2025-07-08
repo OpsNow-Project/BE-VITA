@@ -32,6 +32,11 @@ public class LogAnalysisService {
 
     @Value("${prometheus.base-url}")
     private String prometheusBaseUrl;
+    private final HttpClient httpClient = HttpClient.newHttpClient();
+    private final ObjectMapper objectMapper;
+
+    private JsonNode lastAnalysis;
+
     private static final String LOKI_QUERY_PATH = "/loki/api/v1/query_range";
     private static final String PROMETHEUS_QUERY_PATH = "/api/v1/query_range";
     private static final Map<String, String> QUERIES = Map.of(
@@ -40,11 +45,6 @@ public class LogAnalysisService {
             "disk",    LogAnalysisQueries.DISK_USAGE,
             "traffic", LogAnalysisQueries.HTTP_TRAFFIC
     );
-
-    private final HttpClient httpClient = HttpClient.newHttpClient();
-    private final ObjectMapper objectMapper;
-
-    private JsonNode lastAnalysis;
 
     public LogAnalysisService(ObjectMapper objectMapper) {
         this.objectMapper = objectMapper;
@@ -102,7 +102,7 @@ public class LogAnalysisService {
 
 
     /**
-     * 2) Prometheus 메트릭 조회 (10분 구간, 5초 스텝)
+     * 2) Prometheus 메트릭 조회 (10분 구간, 30초 스텝)
      */
     public Map<String, PrometheusMetricDTO> fetchAllMetrics() throws IOException, InterruptedException {
         Instant end = Instant.now();
