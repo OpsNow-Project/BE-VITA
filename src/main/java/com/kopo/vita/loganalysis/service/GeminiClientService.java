@@ -15,17 +15,20 @@ import java.net.http.HttpResponse;
 
 @Service
 public class GeminiClientService {
-    @Value("${gemini.endpoint}")
-    private String endpoint;
 
-    @Value("${gemini.apiKey}")
-    private String apiKey;
+    private final String endpoint;
+    private final String apiKey;
     private final HttpClient httpClient;
     private final ObjectMapper objectMapper;
 
-    public GeminiClientService(ObjectMapper objectMapper) {
+    public GeminiClientService(
+            @Value("${gemini.endpoint}") String endpoint,
+            @Value("${gemini.apiKey}") String apiKey,
+            ObjectMapper objectMapper) {
+        this.endpoint = endpoint;
+        this.apiKey = apiKey;
         this.objectMapper = objectMapper;
-        this.httpClient   = HttpClient.newHttpClient();
+        this.httpClient = HttpClient.newHttpClient();
     }
 
     // gemini 한테 보낼 body 작성

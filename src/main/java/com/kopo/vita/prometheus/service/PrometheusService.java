@@ -38,6 +38,7 @@ public class PrometheusService {
                 .onStatus(status -> status.is4xxClientError() || status.is5xxServerError(),
                         response -> response.bodyToMono(String.class)
                                 .flatMap(body -> {
+
                                     return Mono.error(new RuntimeException("Error: " + body));
                                 }))
                 .bodyToMono(String.class);
