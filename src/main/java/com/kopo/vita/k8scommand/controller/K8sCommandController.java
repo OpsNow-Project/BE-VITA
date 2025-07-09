@@ -13,7 +13,6 @@ import java.util.Map;
 
 @RestController
 @RequestMapping("/api/cli")
-@RequiredArgsConstructor
 @Slf4j
 public class K8sCommandController {
 
