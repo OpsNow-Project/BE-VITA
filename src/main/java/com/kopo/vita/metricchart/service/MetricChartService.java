@@ -43,7 +43,7 @@ public class MetricChartService {
     }
 
     public List<MetricDTO> getHttpRequestRate() {
-        return queryRange("sum by (uri) (rate(http_server_requests_seconds_count[1m]))");
+        return queryRange("sum(rate(http_server_requests_seconds_count[1m]))");
     }
 
     public List<MetricDTO> getAppVolumeUsage() {

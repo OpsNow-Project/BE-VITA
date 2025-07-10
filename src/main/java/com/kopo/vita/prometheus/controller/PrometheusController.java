@@ -30,5 +30,8 @@ public class PrometheusController {
     public Mono<PodDTO> getPodInfo(String podName, String nameSpace) {
         return prometheusService.getPodInfo(podName, nameSpace);
     }
-
+    @GetMapping("/api/pod/list-detail")
+    public Mono<List<PodDTO>> getPodFullList() {
+        return prometheusService.getPodFullList();
+    }
 }
