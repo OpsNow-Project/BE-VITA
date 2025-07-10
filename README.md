@@ -32,7 +32,7 @@ BE-VITA는 Kubernetes 클러스터의 실시간 모니터링, 로그 분석, 그
 ```bash
 # 프로젝트 클론
 git clone https://github.com/OpsNow-Project/BE-VITA.git
-cd vita
+cd BE-VITA
 
 # Gradle 빌드
 ./gradlew build
