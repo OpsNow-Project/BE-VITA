@@ -2,36 +2,12 @@
 
 Kubernetes 클러스터 모니터링 및 관리 백엔드 애플리케이션
 
-## 📋 개요
+## 개요
 
 BE-VITA는 Kubernetes 클러스터의 실시간 모니터링, 로그 분석, 그리고 클러스터 관리를 위한 종합적인 백엔드 시스템입니다. Google Gemini AI를 활용한 로그 분석과 Prometheus/Loki를 통한 메트릭 수집을 제공합니다.
 
-## 🚀 주요 기능
 
-### 1. Kubernetes 명령어 실행 (`/api/cli`)
-- kubectl 스타일 명령어 지원
-- 지원 명령어: `get`, `describe`, `logs`, `exec`, `patch`, `scale`, `set env`, `rollout`
-- Kubernetes API를 통한 직접 리소스 조작
-
-### 2. 로그 분석 (`/api/log`)
-- Loki를 통한 로그 수집 및 분석
-- Prometheus 메트릭 수집
-- Google Gemini AI를 활용한 로그 패턴 분석
-- CPU, Memory, Disk, HTTP Traffic 메트릭 통합 분석
-
-### 3. 메트릭 차트 (`/api/metrics`)
-- JVM 프로세스 CPU 사용률
-- JVM 힙 메모리 사용량
-- HTTP 요청률 모니터링
-- 디스크 볼륨 사용률
-
-### 4. 클러스터 모니터링 (`/api/metrics/cluster-summary`)
-- 클러스터 전체 메트릭 수집
-- 노드 상태 및 리소스 사용량
-- Pod 상태 및 리스트 조회
-- 네트워크 트래픽, 볼륨 사용량
-
-## 🛠️ 기술 스택
+## 기술 스택
 
 - **Java 21**
 - **Spring Boot 3.5.3**
@@ -40,13 +16,12 @@ BE-VITA는 Kubernetes 클러스터의 실시간 모니터링, 로그 분석, 그
 - **Fabric8 Kubernetes Client** (K8s API 연동)
 - **Docker** 컨테이너화
 
-## 📦 설치 및 실행
+## 설치 및 실행
 
 ### 1. 사전 요구사항
 
 - Java 21 이상
 - Gradle 8.0 이상
-- Docker (선택사항)
 - Kubernetes 클러스터 접근 권한
 - Loki 서버
 - Prometheus 서버
@@ -56,7 +31,7 @@ BE-VITA는 Kubernetes 클러스터의 실시간 모니터링, 로그 분석, 그
 
 ```bash
 # 프로젝트 클론
-git clone <repository-url>
+git clone https://github.com/OpsNow-Project/BE-VITA.git
 cd vita
 
 # Gradle 빌드
@@ -101,91 +76,3 @@ docker run -p 8080:8080 \
   -e KUBECONFIG=/path/to/your/kubeconfig \
   vita
 ```
-
-## 🔧 API 엔드포인트
-
-### Kubernetes 명령어 실행
-```
-POST /api/cli/exec
-Content-Type: application/json
-
-{
-  "command": "kubectl get pods -n default"
-}
-```
-
-### 로그 분석
-```
-POST /api/log/analyze
-GET /api/log/analyze
-```
-
-### 메트릭 조회
-```
-POST /api/metrics/jvm/cpu
-POST /api/metrics/jvm/heap
-POST /api/metrics/http/request-rate
-POST /api/metrics/disk/app-volume-usage
-```
-
-### 클러스터 모니터링
-```
-GET /api/metrics/cluster-summary
-GET /api/pod/list
-GET /api/pod/info?podName=<pod-name>&nameSpace=<namespace>
-```
-
-## 📁 프로젝트 구조
-
-```
-src/main/java/com/kopo/vita/
-├── common/
-│   └── config/
-│       └── CorsConfig.java
-├── k8scommand/
-│   ├── config/
-│   ├── controller/
-│   ├── dto/
-│   └── service/
-├── loganalysis/
-│   ├── controller/
-│   ├── dto/
-│   ├── query/
-│   ├── service/
-│   └── util/
-├── metricchart/
-│   ├── config/
-│   ├── controller/
-│   ├── dto/
-│   └── service/
-├── prometheus/
-│   ├── controller/
-│   ├── dto/
-│   ├── query/
-│   ├── service/
-│   └── util/
-└── VitaApplication.java
-```
-
-## 🔒 보안 고려사항
-
-- Kubernetes API 접근 권한을 적절히 설정하세요
-- Gemini API 키를 안전하게 관리하세요
-- 프로덕션 환경에서는 HTTPS를 사용하세요
-- CORS 설정을 필요한 도메인으로 제한하세요
-
-## 🤝 기여하기
-
-1. Fork the Project
-2. Create your Feature Branch (`git checkout -b feature/AmazingFeature`)
-3. Commit your Changes (`git commit -m 'Add some AmazingFeature'`)
-4. Push to the Branch (`git push origin feature/AmazingFeature`)
-5. Open a Pull Request
-
-## 📄 라이선스
-
-이 프로젝트는 MIT 라이선스 하에 배포됩니다.
-
-## 📞 문의
-
-프로젝트에 대한 문의사항이 있으시면 이슈를 생성해주세요. 
