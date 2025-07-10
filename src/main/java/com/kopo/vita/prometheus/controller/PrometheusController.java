@@ -16,20 +16,20 @@ public class PrometheusController {
 
     private final PrometheusService prometheusService;
 
-//    @GetMapping("/api/metrics/cluster-summary")
-//    public Mono<ClusterMetricsDTO> getClusterSummary() {
-//        return prometheusService.getClusterMetrics();
-//    }
-//
-//    @GetMapping("/api/pod/list")
-//    public Mono<List<PodDTO>> getPodList() {
-//        return prometheusService.getPodList();
-//    }
-//
-//    @GetMapping("/api/pod/info")
-//    public Mono<PodDTO> getPodInfo(String podName, String nameSpace) {
-//        return prometheusService.getPodInfo(podName, nameSpace);
-//    }
+    @GetMapping("/api/metrics/cluster-summary")
+    public Mono<ClusterMetricsDTO> getClusterSummary() {
+        return prometheusService.getClusterMetrics();
+    }
+
+    @GetMapping("/api/pod/list")
+    public Mono<List<PodDTO>> getPodList() {
+        return prometheusService.getPodList();
+    }
+
+    @GetMapping("/api/pod/info")
+    public Mono<PodDTO> getPodInfo(String podName, String nameSpace) {
+        return prometheusService.getPodInfo(podName, nameSpace);
+    }
     @GetMapping("/api/pod/list-detail")
     public Mono<List<PodDTO>> getPodFullList() {
         return prometheusService.getPodFullList();
