@@ -73,4 +73,5 @@ public class PrometheusQueries {
 
     // 파드 재시작 횟수 (모든 컨테이너 합산)
     public static final String POD_RESTART_COUNT = "sum(kube_pod_container_status_restarts_total{pod=\"%s\", namespace=\"%s\"})";
+
 }

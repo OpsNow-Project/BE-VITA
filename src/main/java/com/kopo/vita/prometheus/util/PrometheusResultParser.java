@@ -125,5 +125,41 @@ public class PrometheusResultParser {
 
         return result;
     }
+    public Map<String, Map<String, Double>> extractPodMetric(String json, ObjectMapper mapper) {
+        Map<String, Map<String, Double>> result = new LinkedHashMap<>();
+        try {
+            JsonNode items = mapper.readTree(json).path("data").path("result");
+            for (JsonNode item : items) {
+                String ns = item.path("metric").path("namespace").asText();
+                String pod = item.path("metric").path("pod").asText();
+                double value = item.path("value").get(1).asDouble();
+                result.computeIfAbsent(ns, k -> new LinkedHashMap<>()).put(pod, value);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
+
+    public static Map<String, Map<String, Map<String, Double>>> extractPodPhaseMetric(String json, ObjectMapper mapper) {
+        Map<String, Map<String, Map<String, Double>>> result = new HashMap<>();
+        try {
+            JsonNode items = mapper.readTree(json).path("data").path("result");
+            for (JsonNode item : items) {
+                String ns = item.path("metric").path("namespace").asText();
+                String pod = item.path("metric").path("pod").asText();
+                String phase = item.path("metric").path("phase").asText();
+                double value = item.path("value").get(1).asDouble();
+
+                result
+                        .computeIfAbsent(ns, k -> new HashMap<>())
+                        .computeIfAbsent(pod, k -> new HashMap<>())
+                        .put(phase, value);
+            }
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+        return result;
+    }
 
 }
